@@ -17,6 +17,9 @@
         <button @click="editIngredient(ingredient)" class="edit-button">
           ✏️ Редактировать
         </button>
+        <button @click="deleteIngredient(ingredient.id)" class="delete-button">
+            🗑️ Удалить
+          </button>
       </div>
     </div>
     <!-- Форма добавления/редактирования -->
@@ -97,6 +100,14 @@ export default {
         this.selectedIngredient = null;
       }
     },
+    async deleteIngredient(id) {
+      try {
+        await axios.delete(`http://localhost:3000/ingredients/${id}`);
+        this.ingredients = this.ingredients.filter((ingredient) => ingredient.id !== id); // Удаляем из списка
+      } catch (err) {
+        this.error = "Ошибка при удалении ингредиента: " + err.message;
+      }
+    },
     cancelEdit() {
       this.selectedIngredient = null;
       this.isAdding = false;
@@ -131,5 +142,18 @@ export default {
   margin: 5px 0 0;
   font-size: 0.9rem;
   color: #555;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
 }
 </style>
