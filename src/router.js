@@ -1,22 +1,33 @@
 import { createRouter, createWebHistory } from "vue-router";
-import IngredientView from "./components/IngredientsView.vue";
-import RecipeView from "./components/RecipesView.vue";
+import IngredientsView from "./components/IngredientsView.vue";
+import RecipesView from "./components/RecipesView.vue";
 import LoginView from "./components/LoginView.vue";
+import Menu from './components/Menu';
 
 const routes = [
+  {
+    path: "/",
+    component: RecipesView, // Страница входа
+    //meta: { guest: true } // Доступно только для неавторизованных пользователей
+  },
   {
     path: "/login",
     component: LoginView, // Страница входа
     meta: { guest: true } // Доступно только для неавторизованных пользователей
   },
   {
-    path: "/",
-    component: IngredientView, // Главная страница
+    path: "/menu",
+    component: Menu, // Главная страница
     meta: { requiresAuth: true } // Требует авторизации
   },
   {
     path: "/recipes",
-    component: RecipeView, // Страница рецептов
+    component: RecipesView, // Страница рецептов
+    //meta: { requiresAuth: true } // Требует авторизации
+  },
+  {
+    path: "/ingredients",
+    component: IngredientsView, // Страница рецептов
     meta: { requiresAuth: true } // Требует авторизации
   }
 ];
@@ -35,7 +46,7 @@ router.beforeEach((to, from, next) => {
     next("/login"); // Перенаправляем на страницу входа
   } else if (to.meta.guest && isAuthenticated) {
     // Если пользователь уже вошел в систему, перенаправляем на главную
-    next("/");
+    next("/menu");
   } else {
     next(); // Разрешаем переход
   }
