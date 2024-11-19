@@ -17,10 +17,10 @@
               <td>{{ recipe.name }}</td>
               <td>{{ recipe.description }}</td>
               <td>
-                <!-- Иконка для редактирования рецепта
+                <!-- Иконка для редактирования рецепта -->
                 <button @click="editRecipe(recipe.id)" class="edit-button">
                   ✏️ Изменить
-                </button> -->
+                </button>
               </td>
             </tr>
           </tbody>
@@ -71,8 +71,6 @@
           //   ),
           // ]);
           const response = await axios.get("http://localhost:3000/recipes");
-          console.log("axios call");
-          console.log(response.data);
           this.recipes = response.data;
           // this.groupRecipes = groupRecipes.data;
         } catch (error) {
@@ -88,9 +86,7 @@
       },
     },
     mounted() {
-      console.log("resipesview im here");
       this.fetchData();
-      console.log(this.recipes);
     },
   };
   </script>
