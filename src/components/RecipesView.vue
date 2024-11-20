@@ -86,7 +86,7 @@
     async createRecipe(newRecipe) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/recipes",
+          "/api/recipes",
           newRecipe
         );
         this.recipes.push(response.data);
@@ -100,7 +100,7 @@
     async updateRecipe(updatedRecipe) {
       try {
         await axios.put(
-          `http://localhost:3000/api/recipes/${updatedRecipe.id}`,
+          `/api/recipes/${updatedRecipe.id}`,
           updatedRecipe
         );
 
@@ -117,7 +117,7 @@
     },
     async deleteRecipe(id) {
       try {
-        await axios.delete(`http://localhost:3000/api/recipes/${id}`);
+        await axios.delete(`/api/recipes/${id}`);
         this.recipes = this.recipes.filter((recipe) => recipe.id !== id); // Удаляем из списка
       } catch (err) {
         this.error = "Ошибка при удалении рецепта: " + err.message;

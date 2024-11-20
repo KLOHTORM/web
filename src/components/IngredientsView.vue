@@ -73,7 +73,9 @@ export default {
           "/api/ingredients",
           newIngredient
         );
-        this.ingredients.push(response.data); // Добавляем новый ингредиент в список
+        newIngredient.id = response.data;
+        this.ingredients.push(newIngredient); // Добавляем новый ингредиент в список
+        
       } catch (err) {
         this.error = "Ошибка при добавлении ингредиента: " + err.message;
       } finally {
