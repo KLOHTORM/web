@@ -51,7 +51,7 @@ export default {
       this.error = null; // Сбрасываем сообщение об ошибке
 
       try {
-        const response = await axios.get("http://localhost:3000/ingredients");
+        const response = await axios.get("/api/ingredients");
         this.ingredients = response.data; // Получаем данные
       } catch (err) {
         this.error = "Ошибка при загрузке данных: " + err.message; // Устанавливаем сообщение об ошибке
@@ -70,7 +70,7 @@ export default {
     async createIngredient(newIngredient) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/ingredients",
+          "/api/ingredients",
           newIngredient
         );
         this.ingredients.push(response.data); // Добавляем новый ингредиент в список
@@ -84,7 +84,7 @@ export default {
       try {
         console.log("Im inside update ingredient");
         await axios.put(
-          `http://localhost:3000/ingredients/${updatedIngredient.id}`,
+          `/api/ingredients/${updatedIngredient.id}`,
           updatedIngredient
         );
         const index = this.ingredients.findIndex(
@@ -102,7 +102,7 @@ export default {
     },
     async deleteIngredient(id) {
       try {
-        await axios.delete(`http://localhost:3000/ingredients/${id}`);
+        await axios.delete(`/api/ingredients/${id}`);
         this.ingredients = this.ingredients.filter((ingredient) => ingredient.id !== id); // Удаляем из списка
       } catch (err) {
         this.error = "Ошибка при удалении ингредиента: " + err.message;
