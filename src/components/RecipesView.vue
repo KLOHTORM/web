@@ -4,6 +4,10 @@
       <div v-if="loading">Загрузка...</div>
       <div v-if="error">{{ error }}</div>
       <div v-else>
+
+        <!-- Кнопка для добавления нового ингредиента -->
+    <button @click="addRecipe" class="add-button">Добавить рецепт</button>
+
         <table>
           <thead>
             <tr>
@@ -18,73 +22,112 @@
               <td>{{ recipe.description }}</td>
               <td>
                 <!-- Иконка для редактирования рецепта -->
-                <button @click="editRecipe(recipe.id)" class="edit-button">
+                <button @click="editRecipe(recipe)" class="edit-button">
                   ✏️ Изменить
+                </button>
+                <button @click="deleteRecipe(recipe.id)" class="delete-button">
+                  🗑️ Удалить
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+      <!-- Форма редактирования или добавления -->
+    <RecipeForm
+      v-if="selectedRecipe !== null || isAdding"
+      :recipe="selectedRecipe"
+      @update-recipe="updateRecipe"
+      @add-recipe="createRecipe"
+      @cancel-edit="cancelEdit"
+    />
     </div>
   </template>
   
   <script>
   import axios from "axios";
+  import RecipeForm from "./RecipeForm.vue";
+
   
   export default {
+    components: {
+    RecipeForm // Регистрируем компонент
+    },
     data() {
       return {
         recipes: [],
         loading: false,
         error: null,
-        userGroup: null,
-        groupRecipes: [],
+        selectedRecipe: null,
+        isAdding: false
       };
     },
-
-    // computed: {
-    //   accessibleRecipes() {
-    //     const accessibleIds = this.recipes.map((gr) => gr.id_recipe);
-    //     return this.recipes.filter((recipe) => accessibleIds.includes(recipe.id));
-    //   },
-    // },
 
     methods: {
       async fetchData() {
         try {
           this.loading = true;
-  
-          // // Получение данных пользователя из localStorage
-          // const user = JSON.parse(localStorage.getItem("users"));
-          // if (!user) {
-          //   this.$router.push("/login");
-          //   return;
-          // }
-          // this.userGroup = user.userGroup.id_group;
-  
-          // Получение рецептов
-          // const [recipes, groupRecipes] = await Promise.all([
-          //   axios.get("http://localhost:3000/recipes"),
-          //   axios.get(
-          //     `http://localhost:3000/group_recipes?id_group=${this.userGroup}`
-          //   ),
-          // ]);
           const response = await axios.get("http://localhost:3000/recipes");
           this.recipes = response.data;
-          // this.groupRecipes = groupRecipes.data;
         } catch (error) {
           this.error = "Ошибка загрузки данных. Попробуйте снова.";
         } finally {
           this.loading = false;
         }
       },
-      // Метод для обработки клика на кнопку редактирования рецепта
-      editRecipe(recipeId) {
-        // Можно редиректить на страницу редактирования рецепта с параметром id
-        this.$router.push(`/edit-recipe/${recipeId}`);
-      },
+      addRecipe() {
+      this.isAdding = true;
+      this.selectedRecipe = null;
     },
+    editRecipe(recipe) {
+      this.selectedRecipe = recipe;
+      this.isAdding = false;
+    },
+    async createRecipe(newRecipe) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/recipes",
+          newRecipe
+        );
+        this.recipes.push(response.data);
+      } catch (error) {
+        this.error = "Ошибка при добавлении рецепта.";
+      } finally {
+        this.isAdding = false;
+        this.selectedRecipe = null;
+      }
+    },
+    async updateRecipe(updatedRecipe) {
+      try {
+        await axios.put(
+          `http://localhost:3000/recipes/${updatedRecipe.id}`,
+          updatedRecipe
+        );
+
+        const index = this.recipes.findIndex((r) => r.id === updatedRecipe.id);
+        if (index !== -1) {
+          this.recipes[index] = updatedRecipe;
+        }
+      } catch (error) {
+        this.error = "Ошибка при обновлении рецепта.";
+
+      } finally {
+        this.selectedRecipe = null;
+      }
+    },
+    async deleteRecipe(id) {
+      try {
+        await axios.delete(`http://localhost:3000/recipes/${id}`);
+        this.recipes = this.recipes.filter((recipe) => recipe.id !== id); // Удаляем из списка
+      } catch (err) {
+        this.error = "Ошибка при удалении рецепта: " + err.message;
+      }
+    },
+    cancelEdit() {
+      this.selectedRecipe = null;
+      this.isAdding = false;
+    },
+  },
     mounted() {
       this.fetchData();
     },
