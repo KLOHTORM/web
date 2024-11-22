@@ -1,36 +1,57 @@
 <template>
-    <nav class="navbar">
-      <router-link to="/ingredients" class="nav-item">Ingredients</router-link>
-      <router-link to="/recipes" class="nav-item">Recipes</router-link>
+  <nav class="navbar">
+    <router-link to="/ingredients" class="nav-item">COMPONENTS</router-link>
+    <router-link to="/recipes" class="nav-item">RECIPES</router-link>
+  </nav>
+</template>
 
-      <!-- <router-link v-if="!isAuthenticated" to="/login" class="nav-item">Login</router-link>
-      <button v-if="isAuthenticated" class="nav-item" @click="logout">Logout</button> -->
-
-    </nav>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        isAuthenticated: !!localStorage.getItem("auth") // Проверяем авторизацию
-      };
-    },
-    methods: {
-      logout() {
-        localStorage.removeItem("auth"); // Удаляем токен
-        this.isAuthenticated = false; // Обновляем состояние
-        this.$router.push("/login"); // Перенаправляем на страницу входа
-      }
+<script>
+export default {
+  data() {
+    return {
+      isAuthenticated: !!localStorage.getItem("auth") // Проверяем авторизацию
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("auth"); // Удаляем токен
+      this.isAuthenticated = false; // Обновляем состояние
+      this.$router.push("/login"); // Перенаправляем на страницу входа
     }
+  }
+};
+</script>
 
-    // watch: {
-    //   // Следим за изменением маршрута и обновляем состояние авторизации
-    //   $route() {
-    //     this.isAuthenticated = !!localStorage.getItem("auth");
-    //   }
-    // }
+<style scoped>
+/* Основные стили для навигационной панели */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #2c3e50;
+  padding: 15px 0;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  };
-  </script>
-  
+/* Стили для каждого элемента навигации */
+.nav-item {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+/* Ховер-эффект на элементы навигации */
+.nav-item:hover {
+  background-color: #28a745;
+  transform: scale(1.1);
+}
+
+/* Стили для активного элемента */
+.router-link-active {
+  background-color: #e74c3c;
+  color: white;
+}
+</style>

@@ -1,19 +1,18 @@
 <template>
     <div>
-      <h2>Рецепты</h2>
       <div v-if="loading">Загрузка...</div>
       <div v-if="error">{{ error }}</div>
       <div v-else>
 
-        <!-- Кнопка для добавления нового ингредиента -->
-    <button @click="addRecipe" class="add-button">Добавить рецепт</button>
-
+        <!-- Кнопка для добавления новой рецептуры -->
+    <button @click="addRecipe" class="add-button">Добавить рецептуру</button>
+      
         <table>
           <thead>
             <tr>
               <th>Название</th>
               <th>Описание</th>
-              <th>Действия</th> <!-- Новая колонка для значка изменения -->
+              <th>Действия</th>
             </tr>
           </thead>
           <tbody>
@@ -134,29 +133,44 @@
   };
   </script>
   
-  <style>
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th,
-  td {
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-  th {
-    background-color: #f4f4f4;
-  }
-  
-  .edit-button {
-    background-color: #f4f4f4;
-    border: none;
-    cursor: pointer;
-    color: #42b983;
-  }
-  
-  .edit-button:hover {
-    color: #369b72;
-  }
-  </style>
-  
+
+  <style scoped>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.add-button {
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.add-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.add-button:active {
+  background-color: #1e7e34;
+  transform: scale(1);
+}
+</style>

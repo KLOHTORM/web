@@ -1,27 +1,38 @@
 <template>
-  <div class="ingredients">
-    <!-- Заголовок и индикатор загрузки -->
-    <h2 v-if="loading">Загрузка...</h2>
+  <div>
+    <div v-if="loading">Загрузка...</div>
+    <div v-if="error">{{ error }}</div>
+    <div v-else>
+      <!-- Кнопка для добавления нового ингредиента -->
+      <button @click="addIngredient" class="add-button">Добавить компонент</button>
 
-    <!-- Сообщение об ошибке -->
-    <h2 v-if="error">{{ error }}</h2>
-
-    <!-- Кнопка для добавления нового ингредиента -->
-    <button @click="addIngredient" class="add-button">Добавить ингредиент</button>
-
-    <!-- Список ингредиентов после загрузки -->
-    <div v-if="ingredients && !loading && !error">
-      <div v-for="ingredient in ingredients" :key="ingredient.id" class="ingredient">
-        <h3>{{ ingredient.name }}</h3>
-        <p>{{ ingredient.description }}</p>
-        <button @click="editIngredient(ingredient)" class="edit-button">
-          ✏️ Редактировать
-        </button>
-        <button @click="deleteIngredient(ingredient.id)" class="delete-button">
-            🗑️ Удалить
-          </button>
-      </div>
+      <!-- Таблица ингредиентов -->
+      <table>
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Описание</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="ingredient in ingredients" :key="ingredient.id">
+              <td>{{ ingredient.name }}</td>
+              <td>{{ ingredient.description }}</td>
+              <td>
+                <!-- Иконка для редактирования рецепта -->
+                <button @click="editIngredient(ingredient)" class="edit-button">
+                  ✏️ Изменить
+                </button>
+                <button @click="deleteIngredient(ingredient.id)" class="delete-button">
+                  🗑️ Удалить
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
     </div>
+
     <!-- Форма добавления/редактирования -->
     <IngredientForm v-if="selectedIngredient !== null || isAdding" :ingredient="selectedIngredient"
       @add-ingredient="createIngredient" @update-ingredient="updateIngredient" @cancel-edit="cancelEdit" />
@@ -75,7 +86,7 @@ export default {
         );
         newIngredient.id = response.data;
         this.ingredients.push(newIngredient); // Добавляем новый ингредиент в список
-        
+
       } catch (err) {
         this.error = "Ошибка при добавлении ингредиента: " + err.message;
       } finally {
@@ -123,39 +134,42 @@ export default {
 </script>
 
 <style scoped>
-.ingredients {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.ingredient {
-  border: 1px solid #ddd;
+th,
+td {
   padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
-.ingredient h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #42b983;
+th {
+  background-color: #f4f4f4;
 }
 
-.ingredient p {
-  margin: 5px 0 0;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.delete-button {
-  background-color: #e74c3c;
-  border: none;
+.add-button {
+  background-color: #28a745;
   color: white;
-  padding: 5px 10px;
-  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
   border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
-.delete-button:hover {
-  background-color: #c0392b;
+.add-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.add-button:active {
+  background-color: #1e7e34;
+  transform: scale(1);
 }
 </style>
