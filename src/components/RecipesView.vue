@@ -88,12 +88,13 @@
           "/api/recipes",
           newRecipe
         );
-        this.recipes.push(response.data);
-      } catch (error) {
-        this.error = "Ошибка при добавлении рецепта.";
+        newRecipe.id = response.data;
+        this.recipes.push(newRecipe); // Добавляем новую рецептуру в список
+
+      } catch (err) {
+        this.error = "Ошибка при добавлении рецептуры: " + err.message;
       } finally {
         this.isAdding = false;
-        this.selectedRecipe = null;
       }
     },
     async updateRecipe(updatedRecipe) {
