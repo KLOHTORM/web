@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- Показываем Navbar, если маршрут не "/login" -->
-    <Navbar v-if="$route.path !== '/login'" />
+    <Navbar v-if="$route.path !== '/'" />
     <router-view /> <!-- Компоненты, связанные с маршрутами, будут отображаться здесь -->
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
-    <router-link to="/ingredients" class="nav-item">COMPONENTS</router-link>
-    <router-link to="/recipes" class="nav-item">RECIPES</router-link>
+    <router-link to="/ingredients" class="nav-item">КОМПОНЕНТЫ</router-link>
+    <router-link to="/recipes" class="nav-item">РЕЦЕПТУРЫ</router-link>
   </nav>
 </template>
 
