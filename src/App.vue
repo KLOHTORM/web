@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <!-- Показываем Navbar, если маршрут не "/login" -->
-    <Navbar v-if="$route.path !== '/'" />
+    <!-- Показываем NavBar, если маршрут не "/login" -->
+    <NavBar v-if="$route.path !== '/'" />
     <router-view /> <!-- Компоненты, связанные с маршрутами, будут отображаться здесь -->
   </div>
 </template>
 
 <script>
-import Navbar from "./components/Navbar.vue"; // Подключаем Navbar
+import NavBar from "./components/NavBar.vue"; // Подключаем NavBar
 
 export default {
   components: {
-    Navbar
+    NavBar
   }
 };
 </script>

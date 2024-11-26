@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar">
+  <nav class="NavBar">
     <router-link to="/ingredients" class="nav-item">КОМПОНЕНТЫ</router-link>
     <router-link to="/recipes" class="nav-item">РЕЦЕПТУРЫ</router-link>
     <button @click="logout" class="logout-button">выход</button>
@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
 /* Основные стили для навигационной панели */
-.navbar {
+.NavBar {
   display: flex;
   justify-content: space-around;
   background-color: #2c3e50;

@@ -3,7 +3,7 @@ import IngredientsView from "./components/IngredientsView.vue";
 import RecipesView from "./components/RecipesView.vue";
 import RecipeReview from '@/components/RecipeReview.vue';
 import LoginView from "./components/LoginView.vue";
-import Navbar from "./components/Navbar.vue";
+import NavBar from "./components/NavBar.vue";
 
 const routes = [
   {
@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: "/menu",
-    component: Navbar.vue, // Главная страница
+    component: NavBar.vue, // Главная страница
   },
   {
     path: "/ingredients",
