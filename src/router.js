@@ -24,8 +24,8 @@ const routes = [
   },
   {
     path: '/recipe/:id',
+    name: 'RecipeReview',
     component: RecipeReview,
-    props: true
   }
 ];
 

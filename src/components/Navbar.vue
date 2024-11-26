@@ -2,6 +2,7 @@
   <nav class="navbar">
     <router-link to="/ingredients" class="nav-item">КОМПОНЕНТЫ</router-link>
     <router-link to="/recipes" class="nav-item">РЕЦЕПТУРЫ</router-link>
+    <button @click="logout" class="logout-button">выход</button>
   </nav>
 </template>
 
@@ -9,14 +10,17 @@
 export default {
   data() {
     return {
-      isAuthenticated: !!localStorage.getItem("auth") // Проверяем авторизацию
+      isAuthenticated: false
     };
+  },
+  mounted() {
+    this.isAuthenticated = !!localStorage.getItem("auth"); // Проверяем авторизацию при загрузке
   },
   methods: {
     logout() {
       localStorage.removeItem("auth"); // Удаляем токен
       this.isAuthenticated = false; // Обновляем состояние
-      this.$router.push("/login"); // Перенаправляем на страницу входа
+      this.$router.push("/"); // Перенаправляем на страницу входа
     }
   }
 };

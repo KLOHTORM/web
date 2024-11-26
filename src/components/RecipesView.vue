@@ -1,38 +1,43 @@
 <template>
-    <div>
-      <div v-if="loading">Загрузка...</div>
-      <div v-if="error">{{ error }}</div>
-      <div v-else>
+  <div>
+    <div v-if="loading">Загрузка...</div>
+    <div v-if="error">{{ error }}</div>
+    <div v-else>
+      <!-- Кнопка для добавления новой рецептуры -->
+      <button @click="addRecipe" class="add-button">Добавить рецептуру</button>
 
-        <!-- Кнопка для добавления новой рецептуры -->
-    <button @click="addRecipe" class="add-button">Добавить рецептуру</button>
-      
-        <table>
-          <thead>
-            <tr>
-              <th>Название</th>
-              <th>Описание</th>
-              <th>Действия</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="recipe in recipes" :key="recipe.id">
-              <td>{{ recipe.name }}</td>
-              <td>{{ recipe.description }}</td>
-              <td>
-                <!-- Иконка для редактирования рецепта -->
-                <button @click="editRecipe(recipe)" class="edit-button">
-                  ✏️ Изменить
-                </button>
-                <button @click="deleteRecipe(recipe.id)" class="delete-button">
-                  🗑️ Удалить
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- Форма редактирования или добавления -->
+      <table class="recipes-table">
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="recipe in recipes" :key="recipe.id">
+            <!-- Название рецепта как ссылка -->
+            <td>
+              <span class="link" @click="goToRecipe(recipe.id)">
+                {{ recipe.name }}
+              </span>
+            </td>
+            <td>{{ recipe.description }}</td>
+            <td>
+              <!-- Иконка для редактирования рецепта -->
+              <button @click="editRecipe(recipe)" class="edit-button">
+                ✏️ Изменить
+              </button>
+              <button @click="deleteRecipe(recipe.id)" class="delete-button">
+                🗑️ Удалить
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Форма редактирования или добавления -->
     <RecipeForm
       v-if="selectedRecipe !== null || isAdding"
       :recipe="selectedRecipe"
@@ -40,8 +45,9 @@
       @add-recipe="createRecipe"
       @cancel-edit="cancelEdit"
     />
-    </div>
-  </template>
+  </div>
+</template>
+
   
   <script>
   import axios from "axios";
@@ -126,7 +132,9 @@
     cancelEdit() {
       this.selectedRecipe = null;
       this.isAdding = false;
-    },
+    },goToRecipe(recipeId) {
+    this.$router.push({ name: 'RecipeReview', params: { id: recipeId } });
+  },
   },
     mounted() {
       this.fetchData();
@@ -174,4 +182,14 @@ th {
   background-color: #1e7e34;
   transform: scale(1);
 }
+
+.link {
+  color: black;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: darkblue;
+}
+
 </style>
