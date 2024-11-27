@@ -132,7 +132,8 @@
     cancelEdit() {
       this.selectedRecipe = null;
       this.isAdding = false;
-    },goToRecipe(recipeId) {
+    },
+    goToRecipe(recipeId) {
     this.$router.push({ name: 'RecipeReview', params: { id: recipeId } });
   },
   },
